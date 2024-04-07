@@ -78,6 +78,28 @@ const getDeveloper = (data) => {
 //     return rowSums;
 // }
 
+// task 1
+const tableParsing = (content) => {
+  const data = convertToObject(content);
+  const [name, developer] = getTopMessenger(data);
+  console.log(`General top messenger: ${name}, Owner: ${developer}`);
+  const [mxInd, mnInd] = [getMaxInIndia(data), getMinInIndia(data)];
+  console.log(`Download count: Max count: ${mxInd}, Min count: ${mnInd}`);
+  const getTopAustralia = getAustralia(data);
+  console.log(`Top-3 Australia: ${getTopAustralia.join(', ')}`);
+  const getAvgg = getAvgTop(data);
+  console.log(`Top downloads: ${getAvgg.join(', ')}`);
+  const [name1] = getDeveloper(data);
+  console.log(`Top owner: ${name1}`);
+
+  // const [MxDown, MnDown] = getDownload(data);
+  // console.log(`Download count: Max count: ${MxDown}, Min count: ${MnDown}`)
+  // const getTopik = getTopOfAustralia(data);
+  // console.log(`Top-3 Australia: ${getTopik.join(', ')}`)
+  // const getDownloads = getTopDownloads(data);
+  // console.log(`Top downloads: ${getDownloads}`)
+};
+
 const words = ['React', 'Angular', 'Vue.js', 'JQuery', 'Backbone.js', 'Node.js', 'Ember.js', 'Meteor'];
 
 function getFio(data) {
@@ -109,26 +131,20 @@ function isGitName(names) {
   return name.split(' github.com/')[1];
 }
 
-// task 1
-const tableParsing = (content) => {
-  const data = convertToObject(content);
-  const [name, developer] = getTopMessenger(data);
-  console.log(`General top messenger: ${name}, Owner: ${developer}`);
-  const [mxInd, mnInd] = [getMaxInIndia(data), getMinInIndia(data)];
-  console.log(`Download count: Max count: ${mxInd}, Min count: ${mnInd}`);
-  const getTopAustralia = getAustralia(data);
-  console.log(`Top-3 Australia: ${getTopAustralia.join(', ')}`);
-  const getAvgg = getAvgTop(data);
-  console.log(`Top downloads: ${getAvgg.join(', ')}`);
-  const [name1] = getDeveloper(data);
-  console.log(`Top owner: ${name1}`);
+function test1(arr) {
+  return arr;
+}
 
-  // const [MxDown, MnDown] = getDownload(data);
-  // console.log(`Download count: Max count: ${MxDown}, Min count: ${MnDown}`)
-  // const getTopik = getTopOfAustralia(data);
-  // console.log(`Top-3 Australia: ${getTopik.join(', ')}`)
-  // const getDownloads = getTopDownloads(data);
-  // console.log(`Top downloads: ${getDownloads}`)
+function sortedAcademy(academ) {
+  const [,,,,,,,academy] = academ.trim().split('\n');
+  const sort = academy.slice(11).split(';');
+  const sort1 = sort.map(item => item.split(','));
+  const sort2 = sort1.map(item => item[0].trim().toLowerCase());
+  const sorted = sort2.sort((a, b) => a.localeCompare(b));
+  return sorted.map(item => {
+    const originalCase = sort1.find(el => el[0].trim().toLowerCase() === item);
+    return originalCase[0].trim();
+  });
 };
 
 // task 2
@@ -140,11 +156,59 @@ const candidateAssessment = (content) => {
   console.log(`Required stack: ${finalochka}`);
   const isName = isGitName(content);
   console.log(`GitHub nickname: ${isName.split(',')[0]}`);
+  const test = test1(content);
+  console.log(`Experience: ${test}`)
+  const sortAc = sortedAcademy(content);
+  console.log(`Education: ${sortAc.join(', ')}`);
 };
 
-// task 3
-const actorRating = (/* content */) => {
 
+function arr(data) {
+  const [...item] = data.trim().split('\n');
+  const word = item.map((data) => data.split(' ')[0]);
+  const getWord = word.filter((slovo) => slovo === 'Награда').length;
+  return getWord;  
+}
+
+function arr1(data) {
+  const [...item] = data.trim().split('\n');
+  const word = item.map((data) => data.split(' ')[0]);
+  const getWord = word.filter((slovo) => slovo === 'Номинация').length;
+  return getWord;  
+}
+
+function getFilm(movie) {
+  const [...years] = movie.trim().split('\n');
+  const year2003 = years.map((str) => (str.includes('2003') ? str.split('—')[4] : 0));
+  const deleteZero = year2003.filter((item) => item !== 0 && item !== '0');
+  const deleteRep = deleteZero.filter((arr, index) => deleteZero.indexOf(arr) === index)
+  return deleteRep;
+}
+
+function procent(data) {
+  const arr = data.trim().split('\n').length
+  return arr
+}
+
+const compare1 = (a, b) => {
+  if (a[0] > b[0]) {
+    return -1;
+  } if (a[0] === b[0]) {
+    return 0;
+  }
+  return 1;
+};
+
+
+// task 3
+const actorRating = (content) => {
+  const award = arr(content);
+  const award1 = arr1(content)
+  console.log(`Awards: Rewards: ${award}, Nominations: ${award1}`)
+  const get2003 = getFilm(content);
+  console.log(`Movies 2003:${get2003}`)
+  const percent = procent(content);
+  console.log(`Rewards percent: ${Math.floor((award / percent) * 100)}%`)
 };
 
 export { tableParsing, candidateAssessment, actorRating };
