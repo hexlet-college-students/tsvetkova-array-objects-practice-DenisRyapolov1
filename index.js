@@ -199,6 +199,16 @@ const compare1 = (a, b) => {
   return 1;
 };
 
+function mostSuccessfulMovie(movie) {
+  const [...mov] = movie.trim().split('\n');
+  const lastMov = mov.map((str) => str.split('—')[4]);
+  const wordCount = lastMov.reduce((acc, word) => {
+    acc[word] = (acc[word] || 0) + 1;
+    return acc;
+  }, {});
+  const mostRepeat = Object.keys(wordCount).reduce((a, b) => (wordCount[a] > wordCount[b] ? a : b));
+  return mostRepeat;
+}
 
 // task 3
 const actorRating = (content) => {
@@ -209,6 +219,8 @@ const actorRating = (content) => {
   console.log(`Movies 2003:${get2003}`)
   const percent = procent(content);
   console.log(`Rewards percent: ${Math.floor((award / percent) * 100)}%`)
+  const topMovie = mostSuccessfulMovie(content);
+  console.log(`Most successful movie:${topMovie}`);
 };
 
 export { tableParsing, candidateAssessment, actorRating };
